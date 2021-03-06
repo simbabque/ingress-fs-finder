@@ -1,0 +1,46 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create-events-json:
+    environment: perl
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Cache ~/perl5
+        uses: actions/cache@v2
+        with:
+          key: perl-locallib
+          path: ~/perl5
+      - name: Cache timezones
+        uses: actions/cache@v2
+        with:
+          key: perl-timezone-cache
+          path: ${{ github.workspace }}/cache
+      - name: Install cpanm
+        run: |
+          curl -L https://cpanmin.us | perl - --sudo App::cpanminus
+      - name: Install local::lib
+        run: |
+          cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
+      - name: Install dependencies
+        run: |
+          eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
+          cpanm --notest --installdeps .
+      - name: Run the parser
+        env:
+          GEO_CACHE_DIR: ${{ github.workspace }}/cache
+          GEO_USERNAME: ${{ secrets.GEO_USERNAME }}
+        run: |
+          eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
+          perl bin/parse.pl
+      - name: Upload JSON
+        uses: actions/upload-artifact@v2
+        with:
+          name: events
+          path: ./events.json

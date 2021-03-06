@@ -13,11 +13,13 @@ use Mojo::File;
 use Mojo::JSON 'encode_json';
 use Mojo::UserAgent;
 
-my $ua  = Mojo::UserAgent->new;
-my $glt = Geo::Location::TimeZone->new;
-my $geo = Geo::GeoNames->new( username => $ENV{GEO_USERNAME}, ua => $ua );
-my $cache =
-  CHI->new( driver => 'File', root_dir => $ENV{GEO_CACHE_DIR} || 'cache' );
+my $ua    = Mojo::UserAgent->new;
+my $glt   = Geo::Location::TimeZone->new;
+my $geo   = Geo::GeoNames->new( username => $ENV{GEO_USERNAME}, ua => $ua );
+my $cache = CHI->new(
+    driver   => 'File',
+    root_dir => $ENV{GEO_CACHE_DIR} || 'cache',
+);
 
 my %months = (
     January   => 1,
