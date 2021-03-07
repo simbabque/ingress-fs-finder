@@ -14,7 +14,7 @@ export class EventsComponent implements OnInit {
       delete e.datetime_local;
       return new Event({ ...e, ...{ datetime: datetime } });
     })
-    .sort((a, b) => <any>a.datetime - <any>b.datetime);
+    .sort((a, b) => <any>a.datetime - <any>b.datetime || a.location.localeCompare(b.location));
 
   @Input()
   timezone: string;
