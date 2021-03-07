@@ -17,8 +17,6 @@ export class Event implements IEvent {
   public timezone: string;
   public datetime: Date;
 
-  private format: Intl.DateTimeFormat;
-
   constructor(json: any) {
     this.location = json.location;
     this.link = json.link;
@@ -26,10 +24,14 @@ export class Event implements IEvent {
     this.lon = json.lon;
     this.time_local = json.time_local;
     this.datetime = json.datetime;
-    this.format = new Intl.DateTimeFormat('en-GB', { timeStyle: 'short' });
   }
 
   timeInTimezone(timezone: string): string {
-    return this.format.format(this.datetime);
+    let format = new Intl.DateTimeFormat('en-GB', {
+      timeStyle: 'short',
+      timeZone: timezone,
+    });
+
+    return format.format(this.datetime);
   }
 }
