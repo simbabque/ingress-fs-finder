@@ -27,11 +27,15 @@ export class Event implements IEvent {
   }
 
   timeInTimezone(timezone: string): string {
-    let format = new Intl.DateTimeFormat('en-GB', {
+    let dateFormat = new Intl.DateTimeFormat('en-GB', {
+      weekday: 'long',
+      timeZone: timezone,
+    });
+    let timeFormat = new Intl.DateTimeFormat('en-GB', {
       timeStyle: 'short',
       timeZone: timezone,
     });
 
-    return format.format(this.datetime);
+    return dateFormat.format(this.datetime) + " " + timeFormat.format(this.datetime);
   }
 }
