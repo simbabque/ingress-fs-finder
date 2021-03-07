@@ -65,7 +65,7 @@ foreach
     my $cols = $tr->children('td')->to_array;
 
     my $location = $cols->[0]->all_text;
-    my $link = $cols->[0]->at('a')->attr('href') =~ s/%3D/=/r =~ m/q=(.+?)&/;
+    my ( $link ) = $cols->[0]->at('a')->attr('href') =~ s/%3D/=/r =~ m/q=(.+?)&/;
     my $time = $cols->[1]->text;
     my ( $lat, $lon ) =
       $cols->[2]->at('a')->attr('href') =~ m/ll%3D([-0-9.]+),([-0-9.]+)/;
