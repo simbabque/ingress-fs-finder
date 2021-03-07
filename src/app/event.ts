@@ -1,9 +1,35 @@
-export interface Event {
+interface IEvent {
   location: string;
   link: string;
   lat: number;
   lon: number;
   time_local: string;
   timezone: string;
-  datetime_local: Date;
+  datetime: Date;
+}
+
+export class Event implements IEvent {
+  public location: string;
+  public link: string;
+  public lat: number;
+  public lon: number;
+  public time_local: string;
+  public timezone: string;
+  public datetime: Date;
+
+  private format: Intl.DateTimeFormat;
+
+  constructor(json: any) {
+    this.location = json.location;
+    this.link = json.link;
+    this.lat = json.lat;
+    this.lon = json.lon;
+    this.time_local = json.time_local;
+    this.datetime = json.datetime;
+    this.format = new Intl.DateTimeFormat('en-GB', { timeStyle: 'short' });
+  }
+
+  timeInTimezone(timezone: string): string {
+    return this.format.format(this.datetime);
+  }
 }
