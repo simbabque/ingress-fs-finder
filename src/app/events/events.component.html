@@ -1,4 +1,4 @@
-<mat-card class="event-card">
+<mat-card class="event-card" *ngFor="let event of events">
   <mat-card-header>
     <mat-card-title>{{ event.timeInTimezone(timezone) }}</mat-card-title>
     <mat-card-subtitle>{{ event.location }}</mat-card-subtitle>
