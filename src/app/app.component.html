@@ -1,0 +1,14 @@
+<mat-toolbar>
+  <span>{{ title }}</span>
+  <span class="spacer"></span>
+  <mat-form-field appearance="fill">
+    <mat-label>Your timezone</mat-label>
+    <mat-select [(value)]="timezone" name="timezone">
+      <mat-option *ngFor="let tz of timezones" [value]="tz.value">
+        {{tz.value}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</mat-toolbar>
+
+<app-events [timezone]="timezone"></app-events>
