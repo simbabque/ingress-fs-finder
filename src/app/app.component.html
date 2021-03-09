@@ -3,7 +3,7 @@
   <span class="spacer"></span>
   <mat-form-field appearance="fill">
     <mat-label>Your timezone</mat-label>
-    <mat-select [(value)]="timezone" name="timezone">
+    <mat-select [(value)]="timezone" name="timezone" id="timezone">
       <mat-option *ngFor="let tz of timezones" [value]="tz.value">
         {{tz.value}}
       </mat-option>
