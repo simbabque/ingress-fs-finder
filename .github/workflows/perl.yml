@@ -72,7 +72,6 @@ jobs:
         with:
           name: events
           path: .
-      # TODO - name: Run tests
       - name: Build Angular App
         run: npm run-script deploy
       - name: Deploy
