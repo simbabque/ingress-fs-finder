@@ -1,25 +1,23 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Event } from '../event';
-import * as data from '../../../events.json';
-
+import { EventService } from '../event.service';
 @Component({
   selector: 'app-events',
   templateUrl: './events.component.html',
   styleUrls: ['./events.component.css'],
 })
 export class EventsComponent implements OnInit {
-  events: Event[] = data.events
-    .map((e) => {
-      let datetime = new Date(e.datetime_local);
-      delete e.datetime_local;
-      return new Event({ ...e, ...{ datetime: datetime } });
-    })
-    .sort((a, b) => <any>a.datetime - <any>b.datetime || a.location.localeCompare(b.location));
+  events: Event[];
 
   @Input()
   timezone: string;
 
-  constructor() {}
+  constructor(private eventService: EventService) {}
 
-  ngOnInit(): void {}
+  getEvents(): void {
+    this.eventService.getEvents().subscribe((events) => (this.events = events));
+  }
+  ngOnInit(): void {
+    this.getEvents();
+  }
 }
