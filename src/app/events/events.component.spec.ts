@@ -7,6 +7,7 @@ import { Event } from '../event';
 import { EventService } from '../event.service';
 import { MatCardHarness } from '@angular/material/card/testing';
 import { MatCardModule } from '@angular/material/card';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 class MockEventService {
   getEvents(): Observable<Event[]> {
@@ -38,6 +39,7 @@ describe('EventsComponent', () => {
           EventsComponent,
           { provide: EventService, useClass: MockEventService },
         ],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
       fixture = TestBed.createComponent(EventsComponent);
       component = fixture.componentInstance;
