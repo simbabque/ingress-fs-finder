@@ -25,7 +25,5 @@ jobs:
           key: ${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
       - name: Install Dependencies
         run: npm install
-      - name: Inject events.json file (until we refactor to use HTTP)
-        run: echo '{"events":[]}' >events.json
       - name: Run tests
         run: npm run test:prod
