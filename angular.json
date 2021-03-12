@@ -30,7 +30,7 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -94,7 +94,7 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "src/styles.css"
+              "src/styles.scss"
             ],
             "scripts": []
           }
@@ -125,6 +125,11 @@
           }
         }
       }
+    }
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
     }
   },
   "defaultProject": "ingress-fs-finder"

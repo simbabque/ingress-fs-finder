@@ -8,3 +8,10 @@ mat-toolbar > button {
   border: none;
   cursor: pointer;
 }
+
+mat-toolbar > button:hover {
+  background-color: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
