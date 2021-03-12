@@ -3,19 +3,7 @@ import { Event } from './event';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-
-interface IEventResponseEvent {
-  datetime_local: string;
-  lat: number;
-  link: string;
-  location: string;
-  lon: number;
-  time_local: string;
-  timezone: string;
-}
-interface IEventResponse {
-  events: IEventResponseEvent[];
-}
+import { IEventResponse, IEventResponseEvent } from './models/eventresponse.model';
 
 @Injectable({
   providedIn: 'root',
