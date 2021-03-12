@@ -1,8 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { NoopAnimationsModule } from "@angular/platform-browser/animations";
-import { MatSelectModule } from '@angular/material/select';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatMenuHarness } from '@angular/material/menu/testing';
 import { MatSelectHarness } from '@angular/material/select/testing';
 import { AppComponent } from './app.component';
 
@@ -15,7 +16,7 @@ describe('AppComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [AppComponent],
-        imports: [MatSelectModule, NoopAnimationsModule]
+        imports: [MatMenuModule, NoopAnimationsModule],
       }).compileComponents();
       fixture = TestBed.createComponent(AppComponent);
       fixture.detectChanges();
@@ -42,10 +43,15 @@ describe('AppComponent', () => {
     });
 
     it('should have London preselected', async () => {
-      const timezones = await loader.getHarness<MatSelectHarness>(
-        MatSelectHarness.with({ selector: '#timezone' })
-      );
-      expect(await timezones.getValueText()).toEqual('Europe/London');
+      const menu = await loader.getHarness<MatMenuHarness>(MatMenuHarness);
+      await menu.open();
+      const items = await menu.getItems();
+
+      const itemLondon = await items[0].getText();
+      expect(itemLondon).toContain('Europe/London');
+      expect(itemLondon).toContain('radio_button_checked'); // TODO
+
+      expect(await items[1].getText()).toContain('radio_button_unchecked'); // TODO
     });
   });
 });

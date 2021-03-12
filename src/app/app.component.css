@@ -2,6 +2,9 @@
   flex: 1 1 auto;
 }
 
-mat-toolbar {
-  height: 4em;
+mat-toolbar > button {
+  background-color: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
 }

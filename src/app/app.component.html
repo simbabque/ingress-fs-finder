@@ -1,14 +1,16 @@
 <mat-toolbar color="primary" class="mat-elevation-z6">
   <span>{{ title }}</span>
   <span class="spacer"></span>
-  <mat-form-field appearance="fill">
-    <mat-label>Your timezone</mat-label>
-    <mat-select [(value)]="timezone" name="timezone" id="timezone">
-      <mat-option *ngFor="let tz of timezones" [value]="tz.value">
-        {{tz.value}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+  <button mat-icon-button [matMenuTriggerFor]="timezoneMenu" matTooltip="Select your timezone">
+    <mat-icon>language</mat-icon>
+  </button>
+  <mat-menu #timezoneMenu="matMenu" role="menuitemradio">
+    <button mat-menu-item *ngFor="let tz of timezones" (click)="timezone=tz.value">
+      <mat-icon *ngIf="timezone===tz.value">radio_button_checked</mat-icon>
+      <mat-icon *ngIf="timezone!=tz.value">radio_button_unchecked</mat-icon>
+      <span>{{tz.value}}</span>
+    </button>
+  </mat-menu>
 </mat-toolbar>
 
 <app-events [timezone]="timezone"></app-events>
