@@ -2,28 +2,12 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { EventsComponent } from './events.component';
-import { Observable, of } from 'rxjs';
 import { Event } from '../event';
-import { EventService } from '../event.service';
 import { MatCardHarness } from '@angular/material/card/testing';
 import { MatCardModule } from '@angular/material/card';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-class MockEventService {
-  getEvents(): Observable<Event[]> {
-    return of([
-      new Event({
-        datetime: new Date('2021-03-06T20:00:00Z'),
-        lat: '51.207015',
-        link: 'http://example.org',
-        location: 'Andover, United Kingdom',
-        lon: '-1.479153',
-        time_local: '08:00 pm',
-        timezone: 'Europe/London',
-      }),
-    ]);
-  }
-}
+
 
 describe('EventsComponent', () => {
   let component: EventsComponent;
@@ -36,8 +20,7 @@ describe('EventsComponent', () => {
         declarations: [EventsComponent],
         imports: [MatCardModule],
         providers: [
-          EventsComponent,
-          { provide: EventService, useClass: MockEventService },
+          EventsComponent
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
       }).compileComponents();
@@ -51,21 +34,22 @@ describe('EventsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should not have events after construction', () => {
-    expect(component.events).toBeUndefined();
-  });
-
-  it('should have events after Angular calls ngOnInit', () => {
-    component.ngOnInit();
-    expect(component.events[0]).toBeInstanceOf(Event);
-  });
-
   describe('The User Interface', () => {
     let card: MatCardHarness;
     beforeEach(async () => {
-      component.ngOnInit();
       fixture.detectChanges();
       component.timezone = 'Europe/London';
+      component.events = [
+        new Event({
+          datetime: new Date('2021-03-06T20:00:00Z'),
+          lat: '51.207015',
+          link: 'http://example.org',
+          location: 'Andover, United Kingdom',
+          lon: '-1.479153',
+          time_local: '08:00 pm',
+          timezone: 'Europe/London',
+        }),
+      ];
       card = await loader.getHarness<MatCardHarness>(MatCardHarness);
     });
 

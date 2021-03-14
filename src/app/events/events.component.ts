@@ -1,23 +1,14 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Event } from '../event';
-import { EventService } from '../event.service';
 @Component({
   selector: 'app-events',
   templateUrl: './events.component.html',
   styleUrls: ['./events.component.scss'],
 })
-export class EventsComponent implements OnInit {
+export class EventsComponent {
+  @Input()
   events: Event[];
 
   @Input()
   timezone: string;
-
-  constructor(private eventService: EventService) {}
-
-  getEvents(): void {
-    this.eventService.getEvents().subscribe((events) => (this.events = events));
-  }
-  ngOnInit(): void {
-    this.getEvents();
-  }
 }

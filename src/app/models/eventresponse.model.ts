@@ -9,4 +9,6 @@ export interface IEventResponseEvent {
   }
   export interface IEventResponse {
     events: IEventResponseEvent[];
+    month: string;
+    year: number;
   }

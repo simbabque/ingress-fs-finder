@@ -6,6 +6,30 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatMenuHarness } from '@angular/material/menu/testing';
 import { AppComponent } from './app.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { Observable, of } from 'rxjs';
+import { Event } from './event';
+import { IEventData } from './models/eventdata.model';
+import { EventService } from './event.service';
+
+class MockEventService {
+  getEventsData(): Observable<IEventData> {
+    return of({
+      events: [
+        new Event({
+          datetime: new Date('2021-03-06T20:00:00Z'),
+          lat: '51.207015',
+          link: 'http://example.org',
+          location: 'Andover, United Kingdom',
+          lon: '-1.479153',
+          time_local: '08:00 pm',
+          timezone: 'Europe/London',
+        }),
+      ],
+      month: 'March',
+      year: 2021,
+    });
+  }
+}
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
@@ -18,9 +42,9 @@ describe('AppComponent', () => {
         declarations: [AppComponent],
         imports: [MatMenuModule, NoopAnimationsModule],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        providers: [{ provide: EventService, useClass: MockEventService }],
       }).compileComponents();
       fixture = TestBed.createComponent(AppComponent);
-      fixture.detectChanges();
       component = fixture.componentInstance;
 
       loader = TestbedHarnessEnvironment.loader(fixture);
@@ -35,12 +59,39 @@ describe('AppComponent', () => {
     expect(component.title).toEqual('Ingress First Saturday Finder');
   });
 
+  it('should not have events after construction', () => {
+    expect(component.events).toBeUndefined();
+  });
+
+  it('should have events after Angular calls ngOnInit', () => {
+    component.ngOnInit();
+    expect(component.events[0]).toBeInstanceOf(Event);
+  });
+
+  it('should have a date after Angular calls ngOnInit', () => {
+    component.ngOnInit();
+    expect(component.year).toBe(2021);
+    expect(component.month).toBe('March');
+  });
+
   describe('The User Interface', () => {
+    beforeEach(async () => {
+      fixture.detectChanges();
+      component.ngOnInit();
+    });
+
     it('should render title', () => {
       const compiled = fixture.nativeElement;
-      expect(compiled.querySelector('mat-toolbar span').textContent).toContain(
-        component.title
-      );
+      expect(
+        compiled.querySelector('mat-toolbar .title').textContent
+      ).toContain(component.title);
+    });
+
+    it('should render the date', () => {
+      const compiled = fixture.nativeElement;
+      expect(
+        compiled.querySelector('mat-toolbar .eventDate').textContent
+      ).toContain(component.year, component.month);
     });
 
     it('should have London preselected', async () => {

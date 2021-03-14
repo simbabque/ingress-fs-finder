@@ -24,12 +24,14 @@ describe('EventService', () => {
     httpMock.verify();
   });
 
-  it('should be created', () => {
+  it('should create', () => {
     expect(service).toBeTruthy();
   });
 
-  it('retrieves and sorts events', () => {
-    const mockEvents: IEventResponse = {
+  it('should retrieve and sort events', () => {
+    const mockResponse: IEventResponse = {
+      year: 2021,
+      month: 'March',
       events: [
         {
           datetime_local: '2021-03-06T22:00:00Z',
@@ -52,13 +54,15 @@ describe('EventService', () => {
       ],
     };
 
-    service.getEvents().subscribe((events) => {
-      expect(events.length).toBe(2);
-      expect(events[0].location).toEqual('London');
+    service.getEventsData().subscribe((data) => {
+      expect(data.events.length).toBe(2);
+      expect(data.events[0].location).toEqual('London');
+      expect(data.year).toBe(2021);
+      expect(data.month).toBe('March');
     });
 
     const request = httpMock.expectOne('events.json');
     expect(request.request.method).toBe('GET');
-    request.flush(mockEvents);
+    request.flush(mockResponse);
   });
 });
