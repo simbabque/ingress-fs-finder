@@ -18,7 +18,7 @@ jobs:
       - name: Cache ~/perl5
         uses: actions/cache@v2
         with:
-          key: perl-locallib
+          key: perl-locallib-ubuntu-20
           path: ~/perl5
       - name: Cache timezones
         uses: actions/cache@v2
