@@ -38,6 +38,12 @@ describe('AppComponent', () => {
 
   beforeEach(
     waitForAsync(() => {
+      spyOn<any>(Intl, 'DateTimeFormat').and.returnValue({
+        resolvedOptions: () => ({
+          timeZone: 'America/Sao_Paulo',
+        })
+      });
+
       TestBed.configureTestingModule({
         declarations: [AppComponent],
         imports: [MatMenuModule, NoopAnimationsModule],
@@ -94,13 +100,13 @@ describe('AppComponent', () => {
       ).toContain(component.year, component.month);
     });
 
-    it('should have London preselected', async () => {
+    it('should have the user timezone preselected', async () => {
       const menu = await loader.getHarness<MatMenuHarness>(MatMenuHarness);
       await menu.open();
       const items = await menu.getItems();
 
       const itemLondon = await items[0].getText();
-      expect(itemLondon).toContain('Europe/London');
+      expect(itemLondon).toContain('America/Sao_Paulo');
       expect(itemLondon).toContain('radio_button_checked'); // TODO
 
       expect(await items[1].getText()).toContain('radio_button_unchecked'); // TODO

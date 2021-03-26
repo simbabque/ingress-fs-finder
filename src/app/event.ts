@@ -4,7 +4,6 @@ interface IEvent {
   lat: number;
   lon: number;
   time_local: string;
-  timezone: string;
   datetime: Date;
 }
 
@@ -14,7 +13,6 @@ export class Event implements IEvent {
   public lat: number;
   public lon: number;
   public time_local: string;
-  public timezone: string;
   public datetime: Date;
 
   constructor(json: any) {

@@ -9,26 +9,27 @@
 
       <div class="item item-right">
         <button
-          id="language"
-          mat-icon-button
-          [matMenuTriggerFor]="timezoneMenu"
-          matTooltip="Select your timezone"
+        id="language"
+        mat-icon-button
+        [matMenuTriggerFor]="timezoneMenu"
+        matTooltip="Select your timezone"
         >
+        {{timezone}}
           <mat-icon>language</mat-icon>
         </button>
         <mat-menu #timezoneMenu="matMenu" role="menuitemradio">
           <button
             mat-menu-item
             *ngFor="let tz of timezones"
-            (click)="timezone = tz.value"
+            (click)="timezone = tz"
           >
-            <mat-icon *ngIf="timezone === tz.value"
+            <mat-icon *ngIf="timezone === tz"
               >radio_button_checked</mat-icon
             >
-            <mat-icon *ngIf="timezone != tz.value"
+            <mat-icon *ngIf="timezone != tz"
               >radio_button_unchecked</mat-icon
             >
-            <span>{{ tz.value }}</span>
+            <span>{{ tz }}</span>
           </button>
         </mat-menu>
       </div>
