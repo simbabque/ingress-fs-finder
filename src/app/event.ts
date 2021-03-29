@@ -36,4 +36,9 @@ export class Event implements IEvent {
 
     return dateFormat.format(this.datetime) + " " + timeFormat.format(this.datetime);
   }
+
+  alreadyHappened(): boolean {
+    let now = new Date();
+    return this.datetime < now;
+  }
 }
