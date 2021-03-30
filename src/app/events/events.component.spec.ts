@@ -50,7 +50,7 @@ describe('EventsComponent', () => {
           timezone: 'Europe/London',
         }),
         new Event({
-          datetime: new Date().setDate(new Date().getDate() + 7),
+          datetime: new Date('2121-03-06T20:00:00Z'), // I won't have to fix that bug :)
           lat: '51.207015',
           link: 'http://example.org',
           location: 'Andover, United Kingdom',
