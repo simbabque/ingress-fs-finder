@@ -26,6 +26,7 @@ export class EventService {
           <IEventData>{
             year: data.year,
             month: data.month,
+            lastUpdated: data.created,
             events: data.events
               .map((e: IEventResponseEvent) => {
                 let datetime = new Date(e.datetime_local);
@@ -39,9 +40,7 @@ export class EventService {
               ),
           }
       ),
-      catchError(
-        this.handleError<IEventData>('getEventsData')
-      )
+      catchError(this.handleError<IEventData>('getEventsData'))
     );
   }
 

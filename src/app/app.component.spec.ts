@@ -27,6 +27,7 @@ class MockEventService {
       ],
       month: 'March',
       year: 2021,
+      lastUpdated: '2021-03-30',
     });
   }
 }
@@ -93,11 +94,18 @@ describe('AppComponent', () => {
       ).toContain(component.title);
     });
 
-    it('should render the date', () => {
+    it('should render the FS date', () => {
       const compiled = fixture.nativeElement;
       expect(
         compiled.querySelector('mat-toolbar .eventDate').textContent
       ).toContain(component.year, component.month);
+    });
+
+    it('should render the last updated date', () => {
+      const compiled = fixture.nativeElement;
+      expect(
+        compiled.querySelector('.footer #last-updated').textContent
+      ).toBe('2021-03-30');
     });
 
     it('should have the user timezone preselected', async () => {

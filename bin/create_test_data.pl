@@ -52,8 +52,9 @@ Mojo::File->new('events.json')->spurt(
                 pattern => '%B',
                 locale  => 'en_UK'
             )->format_datetime($today),
-            year => $today->year,
-            fail => []
+            year    => $today->year,
+            fail    => [],
+            created => $today->ymd,
         }
     )
 );

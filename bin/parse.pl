@@ -119,6 +119,12 @@ foreach
 
 Mojo::File->new('events.json')->spurt(
     encode_json(
-        { events => \@events, month => $month, year => $year, fail => \@fail }
+        {
+            events  => \@events,
+            month   => $month,
+            year    => $year,
+            fail    => \@fail,
+            created => DateTime->today->ymd,
+        }
     )
 );

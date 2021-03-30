@@ -25,6 +25,7 @@ export class AppComponent implements OnInit {
   events: Event[];
   month: string;
   year: number;
+  lastUpdated: string;
 
   constructor(private eventService: EventService) {}
 
@@ -33,6 +34,7 @@ export class AppComponent implements OnInit {
       this.events = data.events;
       this.month = data.month;
       this.year = data.year;
+      this.lastUpdated = data.lastUpdated;
     });
   }
   ngOnInit(): void {

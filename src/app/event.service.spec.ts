@@ -32,6 +32,7 @@ describe('EventService', () => {
     const mockResponse: IEventResponse = {
       year: 2021,
       month: 'March',
+      created: '2021-03-30',
       events: [
         {
           datetime_local: '2021-03-06T22:00:00Z',
@@ -59,6 +60,7 @@ describe('EventService', () => {
       expect(data.events[0].location).toEqual('London');
       expect(data.year).toBe(2021);
       expect(data.month).toBe('March');
+      expect(data.lastUpdated).toBe('2021-03-30');
     });
 
     const request = httpMock.expectOne('events.json');
