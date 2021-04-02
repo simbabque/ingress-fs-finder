@@ -9,7 +9,8 @@ import { MatTooltipModule, MatTooltip } from '@angular/material/tooltip';
 import { MatTooltipHarness } from '@angular/material/tooltip/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { By } from '@angular/platform-browser'; 
+import { By } from '@angular/platform-browser';
+import { EventsByDayPipe } from './events-by-day.pipe';
 
 describe('EventsComponent', () => {
   let component: EventsComponent;
@@ -19,7 +20,7 @@ describe('EventsComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [EventsComponent],
+        declarations: [EventsComponent, EventsByDayPipe],
         imports: [MatCardModule, MatTooltipModule, NoopAnimationsModule],
         providers: [EventsComponent],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -74,6 +75,7 @@ describe('EventsComponent', () => {
 
     it('should change date and time when the timezone changes', async () => {
       component.timezone = 'Europe/Berlin';
+      cards = await loader.getAllHarnesses<MatCardHarness>(MatCardHarness);
       expect(await cards[0].getTitleText()).toEqual('Saturday 21:00');
     });
 
@@ -103,9 +105,15 @@ describe('EventsComponent', () => {
         'This event has already happened'
       );
 
-      const ttDebugElements = fixture.debugElement.queryAll(By.css('.event-card'));
-      const pastEventTooltip = ttDebugElements[0].injector.get<MatTooltip>(MatTooltip);
-      const futureEventTooltip = ttDebugElements[1].injector.get<MatTooltip>(MatTooltip);
+      const ttDebugElements = fixture.debugElement.queryAll(
+        By.css('.event-card')
+      );
+      const pastEventTooltip = ttDebugElements[0].injector.get<MatTooltip>(
+        MatTooltip
+      );
+      const futureEventTooltip = ttDebugElements[1].injector.get<MatTooltip>(
+        MatTooltip
+      );
 
       expect(pastEventTooltip.disabled).toBeFalse();
       expect(futureEventTooltip.disabled).toBeTrue();

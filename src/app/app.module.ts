@@ -6,9 +6,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { EventsComponent } from './events/events.component';
 import { HttpClientModule } from '@angular/common/http';
+import { EventsByDayPipe } from './events/events-by-day.pipe';
 
 @NgModule({
-  declarations: [AppComponent, EventsComponent],
+  declarations: [AppComponent, EventsComponent, EventsByDayPipe],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
