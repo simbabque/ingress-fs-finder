@@ -1,6 +1,31 @@
+.events {
+    display: flex;
+    flex: 1 1 auto;
+    overflow: auto;
+}
+
+.events-container {
+    display: flex;
+    flex-flow: row wrap;
+    padding: 10px 0 10px 10px;
+}
+
+.events-column {
+    display: flex;
+    flex-direction: column;
+
+    h2 {
+        padding-left: 20px;
+    }
+}
+
+.events-column-header {
+    padding: 10px;
+}
+
 .event-card {
     margin: 1em;
-    max-width: 300px;
+    width: 300px;
 }
 
 .past-event {

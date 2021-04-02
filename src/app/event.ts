@@ -24,21 +24,26 @@ export class Event implements IEvent {
     this.datetime = json.datetime;
   }
 
-  timeInTimezone(timezone: string): string {
-    let dateFormat = new Intl.DateTimeFormat('en-GB', {
+  dayInTimezone(timezone: string): string {
+    const dateFormat = new Intl.DateTimeFormat('en-GB', {
       weekday: 'long',
       timeZone: timezone,
     });
-    let timeFormat = new Intl.DateTimeFormat('en-GB', {
+    return dateFormat.format(this.datetime);
+  }
+
+  timeInTimezone(timezone: string): string {
+    const day = this.dayInTimezone(timezone);
+    const timeFormat = new Intl.DateTimeFormat('en-GB', {
       timeStyle: 'short',
       timeZone: timezone,
     });
 
-    return dateFormat.format(this.datetime) + " " + timeFormat.format(this.datetime);
+    return day + " " + timeFormat.format(this.datetime);
   }
 
   alreadyHappened(): boolean {
-    let now = new Date();
+    const now = new Date();
     return this.datetime < now;
   }
 }
