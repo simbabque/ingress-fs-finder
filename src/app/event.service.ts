@@ -29,7 +29,7 @@ export class EventService {
             lastUpdated: data.created,
             events: data.events
               .map((e: IEventResponseEvent) => {
-                let datetime = new Date(e.datetime_local);
+                const datetime = new Date(e.datetime_local);
                 delete e.datetime_local;
                 return new Event({ ...e, ...{ datetime: datetime } });
               })

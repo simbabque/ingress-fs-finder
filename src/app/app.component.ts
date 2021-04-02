@@ -8,7 +8,7 @@ import { Event } from './event';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'Ingress First Saturday Finder';
+  title: string = 'Ingress First Saturday Finder';
 
   timezones: string[] = [
     ...new Set([
