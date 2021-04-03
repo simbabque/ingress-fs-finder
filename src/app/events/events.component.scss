@@ -29,6 +29,9 @@
 }
 
 .past-event {
-    filter: grayscale(100%);
-    opacity: 50%;
+    color: #8D8D8D;
+    background-color: #FCFCFC;
+    a {
+        color: #858585;
+    }
 }
