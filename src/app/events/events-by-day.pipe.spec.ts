@@ -1,7 +1,7 @@
 import { EventsByDayPipe } from './events-by-day.pipe';
 import { Event } from '../event';
 
-fdescribe('EventsByDayPipe', () => {
+describe('EventsByDayPipe', () => {
   let pipe: EventsByDayPipe;
   let events: Event[];
 
