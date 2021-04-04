@@ -9,7 +9,6 @@ import { MatTooltipModule, MatTooltip } from '@angular/material/tooltip';
 import { MatTooltipHarness } from '@angular/material/tooltip/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { By } from '@angular/platform-browser';
 import { EventsByDayPipe } from './events-by-day.pipe';
 
 describe('EventsComponent', () => {
@@ -51,6 +50,15 @@ describe('EventsComponent', () => {
           timezone: 'Europe/London',
         }),
         new Event({
+          datetime: new Date(new Date().getTime() - 1000 * 60 * 60), // 1 hour in
+          lat: '51.207015',
+          link: 'http://example.org',
+          location: 'Andover, United Kingdom',
+          lon: '-1.479153',
+          time_local: '08:00 pm',
+          timezone: 'Europe/London',
+        }),
+        new Event({
           datetime: new Date('2121-03-06T20:00:00Z'), // I won't have to fix that bug :)
           lat: '51.207015',
           link: 'http://example.org',
@@ -64,7 +72,9 @@ describe('EventsComponent', () => {
     });
 
     it('should link to the event page', async () => {
-      const link = fixture.nativeElement.querySelector('mat-card a');
+      const link = <HTMLAnchorElement>(
+        fixture.nativeElement.querySelector('mat-card a')
+      );
       expect(link).toHaveClass('mat-card-avatar');
       expect(link.href).toEqual('http://example.org/');
     });
@@ -80,43 +90,57 @@ describe('EventsComponent', () => {
     });
 
     it('should mark the past event as past', async () => {
-      const card = fixture.nativeElement.querySelector('mat-card');
+      const card = <HTMLElement>fixture.nativeElement.querySelector('mat-card');
       expect(card).toHaveClass('past-event');
     });
 
     it('should not mark the future event as past', async () => {
-      const domCards = fixture.nativeElement.querySelectorAll('mat-card');
+      const domCards = <HTMLElement[]>(
+        fixture.nativeElement.querySelectorAll('mat-card')
+      );
       expect(domCards[1]).not.toHaveClass('past-event');
     });
 
-    it('should display tootltip on past events', async () => {
-      const tooltips = await loader.getAllHarnesses(MatTooltipHarness);
-      expect(tooltips.length).toBe(2);
-
-      expect(
-        await (await tooltips[0].host()).hasClass('past-event')
-      ).toBeTrue();
-      expect(
-        await (await tooltips[1].host()).hasClass('past-event')
-      ).toBeFalse();
-
-      await tooltips[0].show();
-      expect(await tooltips[0].getTooltipText()).toEqual(
-        'This event has already happened'
+    it('should get the right background gradient', async () => {
+      const domCards = <HTMLElement[]>(
+        fixture.nativeElement.querySelectorAll('mat-card')
       );
+      // we are ignoring the actual colour of the gradient
+      expect(domCards[1].style.background).toBe(
+        'linear-gradient(90deg, var(--past-bg-color) 50%, rgba(255,255,255,0) 50%)'
+      );
+    });
 
-      const ttDebugElements = fixture.debugElement.queryAll(
-        By.css('.event-card')
-      );
-      const pastEventTooltip = ttDebugElements[0].injector.get<MatTooltip>(
-        MatTooltip
-      );
-      const futureEventTooltip = ttDebugElements[1].injector.get<MatTooltip>(
-        MatTooltip
-      );
+    describe('tooltips', () => {
+      let tooltips: MatTooltipHarness[];
+      beforeEach(async () => {
+        tooltips = await loader.getAllHarnesses(MatTooltipHarness);
+      });
 
-      expect(pastEventTooltip.disabled).toBeFalse();
-      expect(futureEventTooltip.disabled).toBeTrue();
+      it('should have exactly three tooltips', () => {
+        expect(tooltips.length).toBe(3);
+      });
+
+      it('should display on past events', async () => {
+        await tooltips[0].show();
+        expect(await tooltips[0].getTooltipText()).toEqual(
+          'This event has already happened'
+        );
+      });
+
+      it('should display on running events', async () => {
+        await tooltips[1].show();
+        expect(await tooltips[1].getTooltipText()).toEqual(
+          'This event is currently in progress, but you can still join'
+        );
+      });
+
+      it('should display on future events', async () => {
+        await tooltips[2].show();
+        expect(await tooltips[2].getTooltipText()).toEqual(
+          'This event has not started yet'
+        );
+      });
     });
   });
 });
