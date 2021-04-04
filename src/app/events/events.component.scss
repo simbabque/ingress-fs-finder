@@ -2,6 +2,7 @@
     display: flex;
     flex: 1 1 auto;
     overflow: auto;
+    --past-bg-color: rgba(236,236,236,1);
 }
 
 .events-container {
@@ -30,7 +31,7 @@
 
 .past-event {
     color: #8D8D8D;
-    background-color: #FCFCFC;
+    background-color: var(--past-bg-color);
     a {
         color: #858585;
     }

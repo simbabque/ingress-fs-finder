@@ -7,6 +7,16 @@ interface IEvent {
   datetime: Date;
 }
 
+const hours = 1000 * 60 * 60;
+
+export const EventStateNotStarted = 0;
+export const EventStateInProgress = 1;
+export const EventStateFinished = 2;
+export type EventState =
+  | typeof EventStateNotStarted
+  | typeof EventStateInProgress
+  | typeof EventStateFinished;
+
 export class Event implements IEvent {
   public location: string;
   public link: string;
@@ -39,11 +49,42 @@ export class Event implements IEvent {
       timeZone: timezone,
     });
 
-    return day + " " + timeFormat.format(this.datetime);
+    return day + ' ' + timeFormat.format(this.datetime);
   }
 
   alreadyHappened(): boolean {
     const now = new Date();
-    return this.datetime < now;
+    return this.datetime.getTime() + 2 * hours < now.getTime();
+  }
+
+  /**
+   * Returns the percentage of time that has already happened for
+   * this event. Assumes events are two hours long.
+   *
+   * @return 0 if event hasn't happened yet
+   * @return percentage as integer if event is in progress
+   * @return 100 if event is over
+   */
+  finishedPercentage(): number {
+    if (this.alreadyHappened()) return 100;
+
+    return Math.max(
+      Math.floor(
+        ((new Date().getTime() - this.datetime.getTime()) / (2 * hours)) * 100
+      ),
+      0
+    );
+  }
+
+  /**
+   * Returns the state the event is in as one of three constant values.
+   *
+   * @return EventState
+   */
+  state(): EventState {
+    if (this.alreadyHappened()) return EventStateFinished;
+    const percentage = this.finishedPercentage();
+    if (percentage > 0) return EventStateInProgress;
+    return EventStateNotStarted;
   }
 }

@@ -5,9 +5,9 @@
       <mat-card
         class="event-card"
         *ngFor="let event of day.value"
-        matTooltip="This event has already happened"
-        [matTooltipDisabled]="event.alreadyHappened() === false"
+        [matTooltip]="tooltips[event.state()]"
         [class.past-event]="event.alreadyHappened()"
+        [style.background]="getBackgroundGradient(event)"
       >
         <mat-card-header>
           <a
