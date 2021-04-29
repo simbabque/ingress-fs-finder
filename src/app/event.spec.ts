@@ -36,6 +36,10 @@ describe('Event', () => {
     expect(event.timeInTimezone('Europe/London')).toBe('Saturday 20:00');
   });
 
+  it('should return a link from getCalendarInvite', () => {
+    expect(event.getCalendarInvite()).toBe('https://calendar.google.com/calendar/render?action=TEMPLATE&text=Ingress%20FS%20London&dates=20210306T200000Z/20210306T220000Z');
+  });
+
   describe('called', () => {
     beforeEach(() => {
       jasmine.clock().install();

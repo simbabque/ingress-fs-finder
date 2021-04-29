@@ -27,6 +27,15 @@
 .event-card {
     margin: 1em;
     width: 300px;
+
+    .mat-card-actions {
+        padding: 0;
+        margin-left: 0;
+
+        a {
+            margin-right: 1em;
+        }
+    }
 }
 
 .past-event {
