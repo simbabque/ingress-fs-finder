@@ -52,6 +52,22 @@ export class Event implements IEvent {
     return day + ' ' + timeFormat.format(this.datetime);
   }
 
+  getCalendarInvite(): string {
+    const re = /[:-]|\.\d{3}/g;
+    return (
+      'https://calendar.google.com/calendar/render?' +
+      'action=TEMPLATE&' +
+      'text=Ingress%20FS%20' +
+      this.location +
+      '&dates=' +
+      this.datetime.toISOString().replace(re, '') +
+      '/' +
+      new Date(this.datetime.getTime() + 2 * hours)
+        .toISOString()
+        .replace(re, '')
+    );
+  }
+
   alreadyHappened(): boolean {
     const now = new Date();
     return this.datetime.getTime() + 2 * hours < now.getTime();

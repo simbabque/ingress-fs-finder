@@ -71,12 +71,22 @@ describe('EventsComponent', () => {
       cards = await loader.getAllHarnesses<MatCardHarness>(MatCardHarness);
     });
 
-    it('should link to the event page', async () => {
-      const link = <HTMLAnchorElement>(
-        fixture.nativeElement.querySelector('mat-card a')
-      );
-      expect(link).toHaveClass('mat-card-avatar');
-      expect(link.href).toEqual('http://example.org/');
+    describe('should link to', async () => {
+      let links: HTMLAnchorElement[];
+
+      beforeEach(async () => {
+        links = <HTMLAnchorElement[]>(
+          fixture.nativeElement.querySelectorAll('mat-card a')
+        );
+      });
+
+      it('the event page', async () => {
+        expect(links[0].href).toEqual('http://example.org/');
+      });
+
+      it('the google calendar', async () => {
+        expect(links[1].href).toBe('https://calendar.google.com/calendar/render?action=TEMPLATE&text=Ingress%20FS%20Andover,%20United%20Kingdom&dates=20210306T200000Z/20210306T220000Z');
+      });
     });
 
     it('should display the day and time in the correct timezone', async () => {
