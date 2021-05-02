@@ -1,10 +1,29 @@
 @import "~@angular/material/theming";
 
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
 mat-toolbar-row {
   display: flex;
 
   .item {
     width: 300px;
+
+    &.screen-s {
+      display: none;
+      @media screen and (max-width: 500px) {
+        display: block;
+      }
+    }
+    &.screen-m {
+      display: block;
+      @media screen and (max-width: 500px) {
+        display: none;
+      }
+    }
   }
   .item-center {
     flex-grow: 1;
