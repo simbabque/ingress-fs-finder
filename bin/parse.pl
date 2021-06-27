@@ -36,13 +36,8 @@ my %months = (
     December  => 12,
 );
 
-# my $sheet_url =
-# 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQTKIKmwVHSlXLsJvpTebyACxqIK0hN_f23TtUdgbMbO3NANDu8l0AcVKaapk1WSkjnLwU41_8w-7qw/pubhtml?gid=351983111&single=true&headers=false&widget=false&chrome=false';
-
 my $sheet_url =
-  $ua->get('https://fevgames.net/ifs-reg/')
-  ->result->dom->find('.body-content iframe.none[src*=docs]')
-  ->first->attr('src');
+ 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQTKIKmwVHSlXLsJvpTebyACxqIK0hN_f23TtUdgbMbO3NANDu8l0AcVKaapk1WSkjnLwU41_8w-7qw/pubhtml?gid=351983111&single=true&headers=false&widget=false&chrome=false';
 my $sheet_dom = $ua->get($sheet_url)->result->dom;
 
 # find the date of the FS
